@@ -1,23 +1,18 @@
 package com.soumc;
 
+import com.soumc.io.Reader;
 import com.soumc.models.AddressBookProtos;
 
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 
 public class AddressBookReader {
-	private final String addressBookPath;
+  private final Reader<AddressBookProtos.AddressBook> reader;
 
-	public AddressBookReader(String addressBookPath) {
-		this.addressBookPath = addressBookPath;
-	}
+  public AddressBookReader(Reader<AddressBookProtos.AddressBook> reader) {
+    this.reader = reader;
+  }
 
-	public int read() throws IOException {
-		try (InputStream input = new FileInputStream(addressBookPath)) {
-			AddressBookProtos.AddressBook addressBook = AddressBookProtos.AddressBook
-					.parseFrom(input);
-			return addressBook.getPeopleList().size();
-		}
-	}
+  public int read() throws IOException {
+    return reader.read(AddressBookProtos.AddressBook.class).getPeopleList().size();
+  }
 }
