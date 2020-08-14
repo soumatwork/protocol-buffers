@@ -1,19 +1,20 @@
-package com.soumc;
+package com.soumc.legacy;
 
 import com.soumc.models.AddressBookProtos.AddressBook;
 import com.soumc.models.AddressBookProtos.Person;
+
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.InputStreamReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintStream;
 
 public class AddPerson {
 	// This function fills in a Person message based on user input.
-	static Person promptForAddress(BufferedReader stdin,
-			PrintStream stdout) throws IOException {
+	static Person promptForAddress(BufferedReader stdin, PrintStream stdout)
+			throws IOException {
 		Person.Builder person = Person.newBuilder();
 
 		stdout.print("Enter person ID: ");
@@ -35,8 +36,8 @@ public class AddPerson {
 				break;
 			}
 
-			Person.PhoneNumber.Builder phoneNumber =
-					Person.PhoneNumber.newBuilder().setNumber(number);
+			Person.PhoneNumber.Builder phoneNumber = Person.PhoneNumber.newBuilder()
+					.setNumber(number);
 
 			stdout.print("Is this a mobile, home, or work phone? ");
 			String type = stdin.readLine();
@@ -69,10 +70,16 @@ public class AddPerson {
 			FileInputStream input = new FileInputStream(args[0]);
 			try {
 				addressBook.mergeFrom(input);
-			} finally {
-				try { input.close(); } catch (Throwable ignore) {}
 			}
-		} catch (FileNotFoundException e) {
+			finally {
+				try {
+					input.close();
+				}
+				catch (Throwable ignore) {
+				}
+			}
+		}
+		catch (FileNotFoundException e) {
 			System.out.println(args[0] + ": File not found.  Creating a new file.");
 		}
 
@@ -85,7 +92,8 @@ public class AddPerson {
 		FileOutputStream output = new FileOutputStream(args[0]);
 		try {
 			addressBook.build().writeTo(output);
-		} finally {
+		}
+		finally {
 			output.close();
 		}
 	}

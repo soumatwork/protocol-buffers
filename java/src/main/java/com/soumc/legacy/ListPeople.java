@@ -1,4 +1,4 @@
-package com.soumc;
+package com.soumc.legacy;
 
 import com.soumc.models.AddressBookProtos.AddressBook;
 import com.soumc.models.AddressBookProtos.Person;
@@ -45,7 +45,6 @@ class ListPeople {
 		// Read the existing address book.
 		AddressBook addressBook =
 				AddressBook.parseFrom(new FileInputStream(args[0]));
-
 		print(addressBook);
 	}
 }
