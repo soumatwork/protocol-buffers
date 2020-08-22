@@ -20,13 +20,13 @@ public class Main {
 
   private static void write(Writer<AddressBookProtos.AddressBook> writer) throws IOException {
     long start = System.currentTimeMillis();
-    new AddressBookWriter(writer).write(PERSONS);
+    new Serializer(writer).serialize(PERSONS);
     System.out.println("Time taken to write: " + (System.currentTimeMillis() - start));
   }
 
   private static void read(Reader<AddressBookProtos.AddressBook> reader) throws IOException {
     long start = System.currentTimeMillis();
-    System.out.println(new AddressBookReader(reader).read() == PERSONS);
+    System.out.println(new Deserializer(reader).deserialize() == PERSONS);
     System.out.println("Time taken to read: " + (System.currentTimeMillis() - start));
   }
 }

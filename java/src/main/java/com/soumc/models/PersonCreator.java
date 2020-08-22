@@ -1,6 +1,6 @@
 package com.soumc.models;
 
-public class AddressBookCreator {
+public class PersonCreator {
 
 	public AddressBookProtos.Person person(int id) {
 		AddressBookProtos.Person.Builder person = AddressBookProtos.Person.newBuilder();
