@@ -13,13 +13,15 @@ object ProtoMain extends IOApp {
   def run(args: List[String]): IO[ExitCode] = {
     for {
       a <- IO.pure(addressBook)
-      writeStart = System.nanoTime
+      writeStart <- IO(System.nanoTime)
       _ <- write(a)
-      writeDuration = (System.nanoTime - writeStart) / 1e9d
+      currentTime <- IO(System.nanoTime)
+      writeDuration = (currentTime - writeStart) / 1e9d
       _ <- IO(println(s"Time taken to write: $writeDuration"))
-      readStart = System.nanoTime
+      readStart <- IO(System.nanoTime)
       readAddress <- read
-      readDuration = (System.nanoTime - readStart) / 1e9d
+      currentReadTime <- IO(System.nanoTime)
+      readDuration = (currentReadTime - readStart) / 1e9d
       _ <- IO(println(s"Time taken to read: $readDuration"))
       s = if (readAddress.people.size == NUMBER_OF_PEOPLE) ExitCode.Success else ExitCode.Error
     } yield s
