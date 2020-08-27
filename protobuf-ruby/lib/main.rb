@@ -8,7 +8,7 @@ require 'json'
 class Main
   class << self
 
-    NUMBER_OF_PERSON = 50_000
+    NUMBER_OF_PERSON = 1_000_000
     def process
       address_book = AddressBookCreator.address_book(NUMBER_OF_PERSON)
       p 'protobuf'
@@ -41,7 +41,7 @@ class Main
     def write_json(address_book)
       starting = Process.clock_gettime(Process::CLOCK_MONOTONIC)
       File.open('../addressbook.json', 'wb') do |f|
-        f.write(Proto::AddressBook.encode_json(address_book))
+        f.write(JSON.generate(address_book.to_h))
       end
       p "Time taken to write: #{Process.clock_gettime(Process::CLOCK_MONOTONIC) - starting} seconds"
     end
@@ -49,7 +49,7 @@ class Main
     def read_json
       starting = Process.clock_gettime(Process::CLOCK_MONOTONIC)
       File.open('../addressbook.json', 'rb') do |f|
-        p Proto::AddressBook.decode_json(f.read).people.count == NUMBER_OF_PERSON
+        p AddressBookCreator.address_book_from_hash(JSON.parse(f.read, symbolize_names: true)).people.count == NUMBER_OF_PERSON
       end
       p "Time taken to read: #{Process.clock_gettime(Process::CLOCK_MONOTONIC) - starting} seconds"
     end

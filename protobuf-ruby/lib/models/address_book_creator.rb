@@ -9,6 +9,29 @@ class AddressBookCreator
       )
     end
 
+    def address_book_from_hash(address_h)
+
+      people = address_h[:people].map do |person|
+        phones_array = person[:phones].map do |phone|
+          Proto::Person::PhoneNumber.new(
+            number: phone[:number],
+            type: phone[:type]
+          )
+        end
+
+        Proto::Person.new(
+          id: person[:id],
+          name: person[:name],
+          email: person[:email],
+          phones: phones_array
+        )
+      end
+
+      Proto::AddressBook.new(
+        people: people
+      )
+    end
+
     private
 
     def person(id)
